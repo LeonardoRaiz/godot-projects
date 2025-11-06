@@ -1,6 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://b88n22dvr176c"]
+[gd_scene load_steps=5 format=3 uid="uid://b88n22dvr176c"]
 
 [ext_resource type="Script" uid="uid://21f3iri1dw2o" path="res://Scenes/Game/Game.cs" id="1_rdw05"]
+[ext_resource type="Texture2D" uid="uid://ccx1lxhw24axb" path="res://assets/GameBg.png" id="2_gwu2e"]
+[ext_resource type="PackedScene" uid="uid://5flffbeqmksn" path="res://Scenes/Paddle/Paddle.tscn" id="3_xbxml"]
+[ext_resource type="PackedScene" uid="uid://b0l641odkjykt" path="res://Scenes/Gem/Gem.tscn" id="4_ln2h6"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_rdw05")
+_gemPath = NodePath("Gem")
+
+[node name="GameBg" type="Sprite2D" parent="."]
+position = Vector2(991, 538)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("2_gwu2e")
+
+[node name="Paddle" parent="." instance=ExtResource("3_xbxml")]
+position = Vector2(950, 917)
+_speed = 600.0
+
+[node name="Gem" parent="." instance=ExtResource("4_ln2h6")]
+position = Vector2(773, 249)
