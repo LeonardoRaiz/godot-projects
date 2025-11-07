@@ -5,6 +5,7 @@ public partial class Gem : Area2D
 {
 	[Export] private float _speed = 100.0f;
 	[Signal] public delegate void OnScoredEventHandler();
+	[Signal] public delegate void OnGemOffScreenEventHandler();
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -15,6 +16,7 @@ public partial class Gem : Area2D
 	public override void _Process(double delta)
 	{
 		Position += new Vector2(0.0f,_speed * (float)delta);
+		CheckOffScreen();
 	}
 
 	private void OnAreaEntered(Area2D area)
@@ -22,5 +24,13 @@ public partial class Gem : Area2D
 		GD.Print("Area entered");
 		EmitSignal(SignalName.OnScored); // Custom Signal emit to the game 
 		QueueFree(); // Destroy the gem
+	}
+
+	private void CheckOffScreen()
+	{
+		if (!(Position.Y > GetViewportRect().End.Y)) return;
+		GD.Print("Off screen");
+		EmitSignal(SignalName.OnGemOffScreen);
+		SetProcess(false);
 	}
 }

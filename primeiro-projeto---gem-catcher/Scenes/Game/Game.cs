@@ -3,23 +3,71 @@ using System;
 
 public partial class Game : Node2D
 {
-	[Export] private NodePath _gemPath;
-	
-	private Gem _gem;
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		_gem = GetNode<Gem>(_gemPath);
-		_gem.OnScored += OnScored;
-	}
+    private const float GEM_MARGIN = 100.0f;
+    [Export] private PackedScene _gemScene;
+    [Export] private Timer _spawnTimer;
+    [Export] private Label _scoreLabel;
+    
+    private int _score = 0;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+    // 1. Adicione a "trava"
+    private bool _isInitialized = false;
 
-	private void OnScored()
-	{
-		GD.Print("Scored Received");
-	}
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+       _spawnTimer.Timeout += SpawnGem;
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+        if (_isInitialized)
+        {
+            return;
+        }
+        Rect2 vpr = GetViewportRect();
+        if (vpr.Size.X > 200) 
+        {
+            _isInitialized = true;
+            SpawnGem();
+            _spawnTimer.Start();
+        }
+    }
+
+    private void OnScored()
+    {
+       GD.Print("Scored Received");
+       _score++;
+       _scoreLabel.Text = $"{_score:0000}";
+    }
+    
+    private void SpawnGem()
+    {
+       Rect2 vpr = GetViewportRect();
+       Gem gem = (Gem)_gemScene.Instantiate();
+       AddChild(gem);
+       
+       float rX = (float)GD.RandRange(
+          vpr.Position.X + GEM_MARGIN, vpr.End.X - GEM_MARGIN
+       );
+       
+       gem.Position = new Vector2(rX, -100);
+       
+       gem.OnScored += OnScored;
+       gem.OnGemOffScreen += OnGameOver;
+    }
+    
+    private void OnGameOver()
+    {
+       GD.Print("Game Over");
+       foreach (Node node in  GetChildren())
+       {
+          if (IsInstanceValid(node))
+          {
+             node.SetProcess(false);
+          }
+       }
+       _spawnTimer.Stop();
+    }
 }
