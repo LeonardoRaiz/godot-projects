@@ -7,6 +7,9 @@ public partial class Game : Node2D
     [Export] private PackedScene _gemScene;
     [Export] private Timer _spawnTimer;
     [Export] private Label _scoreLabel;
+    [Export] private AudioStreamPlayer _soundBg;
+    [Export] private AudioStreamPlayer2D _effects;
+    [Export] private AudioStream _explodeSound;
     
     private int _score = 0;
 
@@ -40,6 +43,7 @@ public partial class Game : Node2D
        GD.Print("Scored Received");
        _score++;
        _scoreLabel.Text = $"{_score:0000}";
+       _effects.Play();
     }
     
     private void SpawnGem()
@@ -68,6 +72,10 @@ public partial class Game : Node2D
              node.SetProcess(false);
           }
        }
+       _effects.Stop();
+       _effects.Stream = _explodeSound;
+       _effects.Play();
        _spawnTimer.Stop();
+       _soundBg.Stop();
     }
 }

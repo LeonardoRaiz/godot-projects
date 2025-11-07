@@ -15,6 +15,10 @@ run/main_scene="uid://b88n22dvr176c"
 config/features=PackedStringArray("4.5", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [dotnet]
 
 project/assembly_name="Primeiro Projeto - GemCatcher"
