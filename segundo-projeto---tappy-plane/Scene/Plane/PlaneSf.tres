@@ -1,0 +1,35 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://nxxastc1865e"]
+
+[ext_resource type="Texture2D" uid="uid://c8etpxbkdttgs" path="res://assets/plane/planes_sheet.png" id="1_f0v0c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvwb8"]
+atlas = ExtResource("1_f0v0c")
+region = Rect2(0, 0, 88, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pb3rv"]
+atlas = ExtResource("1_f0v0c")
+region = Rect2(88, 0, 88, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yd1c7"]
+atlas = ExtResource("1_f0v0c")
+region = Rect2(176, 0, 88, 73)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvwb8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pb3rv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yd1c7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pb3rv")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 10.0
+}]
